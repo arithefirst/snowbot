@@ -1,3 +1,7 @@
+const { Client, Events, GatewayIntentBits } = require("discord.js");
+const { token } = require("./config.json");
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
 function date2epoch(M, D, Y, T, PM) {
   // If PM is true, add 12 to the time to convert to 24h
   if (PM == true) {
@@ -11,3 +15,9 @@ function date2epoch(M, D, Y, T, PM) {
 }
 
 console.log(date2epoch(8, 18, 2024, "1:27", true));
+
+client.once(Events.ClientReady, (readyClient) => {
+  console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+});
+
+client.login(token);
