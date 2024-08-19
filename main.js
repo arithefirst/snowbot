@@ -24,7 +24,15 @@ for (const folder of commandFolders) {
 }
 
 client.once(Events.ClientReady, (readyClient) => {
-  console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+  console.log("  _________                    ___.           __   ");
+  console.log(" /   _____/ ____   ______  _  _\\_ |__   _____/  |_ ");
+  console.log(" \\_____  \\ /    \\ /  _ \\ \\/ \\/ /| __ \\ /  _ \\   __\\");
+  console.log(" /        \\   |  (  <_> )     / | \\_\\ (  <_> )  |  ");
+  console.log("/_______  /___|  /\\____/ \\/\\_/  |___  /\\____/|__|  ");
+  console.log("        \\/     \\/                   \\/             ");
+  console.log("---------------------------------------------------------");
+  console.log("Developed by arithefirst for iittlesnow\n");
+  console.log(`Bot Ready: Logged in as ${readyClient.user.tag}\n`);
 });
 
 client.on(Events.InteractionCreate, async (interaction) => {
