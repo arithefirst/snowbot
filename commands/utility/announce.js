@@ -10,21 +10,26 @@ module.exports = {
     .addBooleanOption((option) => option.setName("everyone").setDescription("Wether to ping everyone or not").setRequired(true)),
 
   async execute(interaction) {
-    const announcement = new EmbedBuilder()
-      .setColor(0xcbe2f2)
-      .setTitle(interaction.options.getString("title"))
-      .setAuthor({ name: interaction.user.displayName, iconURL: interaction.user.displayAvatarURL({ size: 128 }), url: "https://twitch.tv/iittlesnow" })
-      .setDescription(interaction.options.getString("body"))
-      .setTimestamp()
-      .setFooter({ text: `© Snowbot ${new Date().getFullYear()}` });
-    // Set "content" to contain the everyone ping if the everyone bool is set to true
-    let content;
-    if (interaction.options.getBoolean("everyone") == true) {
-      content = { content: "@everyone", allowedMentions: { parse: ["everyone"] }, embeds: [announcement] };
-    } else {
-      content = { embeds: [announcement] };
-    }
+    // Allow command execution only when the user has a role titled "Snowbot Administrator"
+    if (interaction.member.roles.cache.some((role) => role.name === "Snowbot Administrator")) {
+      const announcement = new EmbedBuilder()
+        .setColor(0xcbe2f2)
+        .setTitle(interaction.options.getString("title"))
+        .setAuthor({ name: interaction.user.displayName, iconURL: interaction.user.displayAvatarURL({ size: 128 }), url: "https://twitch.tv/iittlesnow" })
+        .setDescription(interaction.options.getString("body"))
+        .setTimestamp()
+        .setFooter({ text: `© Snowbot ${new Date().getFullYear()}` });
 
-    await interaction.reply(content);
+      if (interaction.options.getBoolean("everyone") == true) {
+        interaction.reply({ content: "@everyone", allowedMentions: { parse: ["everyone"] }, embeds: [announcement] });
+        console.log(`Announcement successfully sent by ${interaction.user.displayName}`);
+      } else {
+        interaction.reply({ embeds: [announcement] });
+        console.log(`Announcement successfully sent by ${interaction.user.displayName}`);
+      }
+    } else {
+      console.log(`${interaction.user.displayName} attempted to use /announce without permissions.`);
+      await interaction.reply({ content: "You do not have permission to use thie command.", ephemeral: true });
+    }
   },
 };
