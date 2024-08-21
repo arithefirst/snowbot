@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require("discord.js");
 
+process.env.TZ = "America/New_York";
+
 function date2epoch(M, D, Y, T, PM) {
   // If PM is true, add 12 to the time to convert to 24h
   if (PM == true) {
